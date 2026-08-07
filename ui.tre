@@ -1,0 +1,13 @@
+PAGE
+    Toplevel: Toplevel 0
+        Listbox: z21status  
+        Menubar
+        Labelframe: Lokframe1  
+            Canvas: Lokbild1  
+            Scale: Lokscale1  
+            Button: Lokstop1  
+            Button: Lok_F1  
+        TPanedwindow: TPanedwindow1  
+            Pane: TPanedwindow1_p1  
+            Pane: TPanedwindow1_p2  
+
