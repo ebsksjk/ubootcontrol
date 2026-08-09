@@ -1,29 +1,20 @@
-from tkinter import *
+import socket
+import struct
 
-root = Tk()
-root.title("Scrollable Frame")
-root.geometry("800x600")
+import util
 
-#add a canvas
-canvas = Canvas(root)
-canvas.pack(side=LEFT, fill=BOTH, expand=True)
+IP = "192.168.0.111"
+PORT = 21105
 
-#add the scrollbar
-scrollbar = Scrollbar(root, orient=VERTICAL, command=canvas.yview)
-scrollbar.pack(side=RIGHT, fill=Y)
+print("UDP target IP:", IP)
+print("UDP target port:", PORT)
 
-#mousethingies ig. ne. eigentlich nicht. bwah
-#iguess tell the canvas to scroll using the scrollbar? scroll. scroll. scrool. scccroolllll. scrooll. scroll.
-canvas.configure(yscrollcommand=scrollbar.set)
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # ipv4+UDP
 
-#create the frame that will actually be scrolled
-scrollable_frame = Frame(canvas)
-#bind the frame into the canvas
-canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
-#do the scroll logic....????????????????????
-scrollable_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+req = util.LAN_GET_SERIAL_NUMBER()
+response = req.make_request(IP, PORT, sock)
+print(f"serial: {response}")
 
-for i in range(30):
-    Label(scrollable_frame, text=f"Item {i+1}", width=20).pack(pady=5)
-
-root.mainloop()
+req = util.LAN_X_SET_TRACK_POWER_OFF()
+res = req.make_request(IP, PORT, sock)
+print(res)
